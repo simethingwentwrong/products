@@ -37,6 +37,14 @@ public class StockManager
      */
     public void delivery(int id, int amount)
     {
+        for( Product producto : stock)
+        {
+            if( id == producto.getID())
+            {
+                producto.increaseQuantity(amount);
+            }
+        
+        }
     }
 
     /**
@@ -47,12 +55,12 @@ public class StockManager
     public Product findProduct(int id)
     {
         Product ide = null;
-        
+
         for( Product producto : stock)
         {
             if( id == producto.getID())
             {
-               ide = producto;
+                ide = producto;
             }
             else
             {
@@ -71,7 +79,20 @@ public class StockManager
      */
     public int numberInStock(int id)
     {
-        return 0;
+        int cantidad = 0;
+        for (Product producto : stock)
+        {
+            if (producto.getID() == id)
+            {
+                cantidad = producto.getQuantity();
+            }
+            else
+            {
+                return -1;
+            }
+            return cantidad;
+        }
+        return cantidad;
     }
 
     /**
