@@ -37,13 +37,12 @@ public class StockManager
      */
     public void delivery(int id, int amount)
     {
-        for( Product producto : stock)
-        {
-            if( id == producto.getID())
-            {
-                producto.increaseQuantity(amount);
-            }
-        
+        Product producto = findProduct(id);
+        if(producto != null){
+            producto.increaseQuantity(amount);
+        }
+        else{
+            System.out.println("El id indicado no pertenece a ningun producto");
         }
     }
 
@@ -54,20 +53,18 @@ public class StockManager
      */
     public Product findProduct(int id)
     {
-        Product ide = null;
-
-        for( Product producto : stock)
-        {
-            if( id == producto.getID())
-            {
-                ide = producto;
+        Product producto = null;
+        int index = 0;
+        boolean encontrado = false;
+        while(!encontrado && index < stock.size()) {
+            if (stock.get(index).getID() == id) {
+                producto = stock.get(index);
+                encontrado = true;
             }
-            else
-            {
-                ide = null;
-            }
+            index++;
         }
-        return ide;
+
+        return producto; 
     }
 
     /**
@@ -80,17 +77,9 @@ public class StockManager
     public int numberInStock(int id)
     {
         int cantidad = 0;
-        for (Product producto : stock)
-        {
-            if (producto.getID() == id)
-            {
-                cantidad = producto.getQuantity();
-            }
-            else
-            {
-                return -1;
-            }
-            return cantidad;
+        Product producto = findProduct(id); 
+        if (producto != null) {
+            cantidad = producto.getQuantity();
         }
         return cantidad;
     }
@@ -100,9 +89,23 @@ public class StockManager
      */
     public void printProductDetails()
     {
-        for(Product producto : stock)
-        {
+        for (Product producto : stock) {
             System.out.println(producto);
         }
     }
+
+    /**
+     * imprime los detalles de todos los productos cuyo stock está por debajo de un determinado número que será pasado como parámetro al método.
+     */
+    public void underGivenNumberInStock (int cantidad)
+    {
+       for (Product producto : stock)
+       {
+           if (cantidad > producto.getQuantity())
+           {
+               System.out.println(producto);
+           }
+        }
+    }
 }
+
