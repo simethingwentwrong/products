@@ -26,7 +26,16 @@ public class StockManager
      */
     public void addProduct(Product item)
     {
-        stock.add(item);
+        Product producto = findProduct(item.getID());
+        if (producto == null) 
+        {
+            stock.add(item);
+        }
+        else
+        {
+            System.out.println("La ID ya esta cojida");
+        }
+
     }
 
     /**
@@ -99,13 +108,32 @@ public class StockManager
      */
     public void underGivenNumberInStock (int cantidad)
     {
-       for (Product producto : stock)
-       {
-           if (cantidad > producto.getQuantity())
-           {
-               System.out.println(producto);
-           }
+        for (Product producto : stock)
+        {
+            if (cantidad > producto.getQuantity())
+            {
+                System.out.println(producto);
+            }
         }
+    }
+
+    /**
+     * permita encontrar productos por su nombre en vez de por su id. En caso de no encontrarse una coincidencia exacta el método devuelve null.
+     */
+    public Product findProduct(String name)
+    {
+        Product producto = null;
+        int index = 0;
+        boolean encontrado = false;
+        while(!encontrado && index < stock.size()) {
+            if (stock.get(index).getName() == name) {
+                producto = stock.get(index);
+                encontrado = true;
+            }
+            index++;
+        }
+
+        return producto; 
     }
 }
 
